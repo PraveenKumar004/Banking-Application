@@ -1,0 +1,31 @@
+create database Bank;
+USE Bank;
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    account_number VARCHAR(20) UNIQUE,
+    pin CHAR(4),
+    balance DECIMAL(12,2),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE transactions (
+    txn_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    type VARCHAR(20) NOT NULL,        
+    amount DECIMAL(12,2) NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    details TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE atm_cards (
+    card_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    card_number VARCHAR(16) UNIQUE NOT NULL,
+    expiry_date DATE NOT NULL,
+    cvv CHAR(3) NOT NULL,
+    status VARCHAR(10) DEFAULT 'active', 
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
